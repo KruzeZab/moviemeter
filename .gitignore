@@ -1,0 +1,7 @@
+.vscode
+.venv
+__pycache__
+*.pkl
+movie_list.pkl
+similarity.pkl
+node_modules/
