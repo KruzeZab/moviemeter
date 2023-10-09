@@ -12,6 +12,7 @@ import {
   Tooltip,
   Link as MuiLink,
   useMediaQuery,
+  Button,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -28,6 +29,7 @@ import { ColorModeContext } from '../../theme/ColorModeContext';
 import { ModalContext } from '../../context/ModalContext';
 import { MODALS } from '../../helpers/constants';
 import { AuthContext } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -76,47 +78,47 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function SearchWithBack({
-  toggleSearch,
-}: {
-  toggleSearch: () => void;
-}) {
-  return (
-    <>
-      <IconButton
-        aria-label="back"
-        onClick={toggleSearch}
-        sx={{ mr: 1.5 }}
-      >
-        <ArrowBackIcon />
-      </IconButton>
-      <Search>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Search for a Movie, TV show, Person, etc..."
-          inputProps={{ 'aria-label': 'search' }}
-          autoFocus
-        />
-      </Search>
-    </>
-  );
-}
+// function SearchWithBack({
+//   toggleSearch,
+// }: {
+//   toggleSearch: () => void;
+// }) {
+//   return (
+//     <>
+//       <IconButton
+//         aria-label="back"
+//         onClick={toggleSearch}
+//         sx={{ mr: 1.5 }}
+//       >
+//         <ArrowBackIcon />
+//       </IconButton>
+//       <Search>
+//         <SearchIconWrapper>
+//           <SearchIcon />
+//         </SearchIconWrapper>
+//         <StyledInputBase
+//           placeholder="Search for a Movie, TV show, Person, etc..."
+//           inputProps={{ 'aria-label': 'search' }}
+//           autoFocus
+//         />
+//       </Search>
+//     </>
+//   );
+// }
 
-function SearchWithoutBack() {
-  return (
-    <Search>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
-      <StyledInputBase
-        placeholder="Search for a Movie, TV show, Person, etc..."
-        inputProps={{ 'aria-label': 'search' }}
-      />
-    </Search>
-  );
-}
+// function SearchWithoutBack() {
+//   return (
+//     <Search>
+//       <SearchIconWrapper>
+//         <SearchIcon />
+//       </SearchIconWrapper>
+//       <StyledInputBase
+//         placeholder="Search for a Movie, TV show, Person, etc..."
+//         inputProps={{ 'aria-label': 'search' }}
+//       />
+//     </Search>
+//   );
+// }
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -205,7 +207,7 @@ const Header = () => {
 
   const renderNavElm = (
     <Box display="flex" gap={{ xs: 1, md: 2 }}>
-      <Tooltip title="Search">
+      {/* <Tooltip title="Search">
         <IconButton
           size="small"
           aria-label="show search bar"
@@ -217,12 +219,24 @@ const Header = () => {
         >
           <SearchIcon />
         </IconButton>
-      </Tooltip>
+      </Tooltip> */}
+
+      <Button
+        component={Link}
+        to="/recommend"
+        variant="contained"
+        color="error"
+      >
+        Recommend Similar Movies
+      </Button>
+
       <Tooltip title="Trending">
         <IconButton
           size="small"
           aria-label="show trending page"
           color="inherit"
+          LinkComponent={Link}
+          to="/trending"
         >
           <TrendingUpIcon />
         </IconButton>
@@ -283,11 +297,11 @@ const Header = () => {
           <Box sx={{ flexGrow: 1 }} />
 
           {/* Search Box */}
-          {!largeDevice && searchActive ? (
+          {/* {!largeDevice && searchActive ? (
             <SearchWithBack toggleSearch={toggleSearch} />
           ) : (
             largeDevice && <SearchWithoutBack />
-          )}
+          )} */}
 
           <Box sx={{ flexGrow: 1 }} />
 

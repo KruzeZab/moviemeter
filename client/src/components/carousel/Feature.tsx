@@ -25,7 +25,15 @@ const images = [
   // Add more images as needed
 ];
 
-const Feature = () => {
+interface FeatureProps {
+  carousels: {
+    url: string;
+    name: string;
+  }[];
+}
+
+const Feature = (props: FeatureProps) => {
+  const { carousels } = props;
   const theme = useTheme();
   const largeDevice = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -39,11 +47,11 @@ const Feature = () => {
       navButtonsAlwaysVisible
       height={imageHeight}
     >
-      {images.map((image) => (
-        <Paper key={image.imageUrl}>
+      {carousels.map((image: any) => (
+        <Paper key={image.url}>
           <img
-            src={image.imageUrl}
-            alt={image.caption}
+            src={image.url}
+            alt={image.name}
             style={{
               width: '100%',
               height: imageHeight,

@@ -67,7 +67,20 @@ const NEWS = [
   },
 ];
 
-const TopNews = () => {
+interface TopNewsProps {
+  news: {
+    id: number;
+    title: string;
+    excerpt: string;
+    description: string;
+    dateCreated: string;
+    imageUrl: string;
+  }[];
+}
+
+const TopNews = (props: TopNewsProps) => {
+  const { news } = props;
+
   return (
     <>
       <Typography
@@ -80,14 +93,13 @@ const TopNews = () => {
         Top News
       </Typography>
       <Grid container justifyContent="space-between">
-        {NEWS.map((news) => (
-          <Grid key={news.id} item xs={12} md={6} lg={3}>
+        {news.map((item: any) => (
+          <Grid key={item.id} item xs={12} md={6} lg={3}>
             <List sx={{ width: '100%' }}>
-              <ListItem key={news.id} sx={{ pt: 0, pl: 0 }}>
+              <ListItem key={item.id} sx={{ pt: 0, pl: 0 }}>
                 <ListItemButton
                   sx={{ pl: 1 }}
-                  LinkComponent={MuiLink}
-                  href="/"
+                  
                 >
                   <ListItemAvatar
                     sx={{ alignSelf: 'stretch', mr: 2 }}
@@ -96,12 +108,12 @@ const TopNews = () => {
                       sx={{ width: 80, height: '100%' }}
                       variant="rounded"
                       alt="Remy Sharp"
-                      src={news.image}
+                      src={item.imageUrl}
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={news.title}
-                    secondary={news.createdDate}
+                    primary={item.title}
+                    secondary={item.dateCreated}
                   />
                 </ListItemButton>
               </ListItem>

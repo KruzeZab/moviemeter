@@ -7,26 +7,34 @@ import TopNews from './sections/TopNews';
 
 import './index.css';
 
+import {
+  CAROUSELS,
+  TRENDINGS,
+  FROM_US,
+  TOP_GROSS,
+  NEWS,
+} from '../../data.ts';
+
 const HomePage = () => {
   return (
     <Grid container spacing={3} rowSpacing={0}>
       <Grid item xs={12} lg={9} mb={4}>
-        <FeatureCarousel />
+        <FeatureCarousel carousels={CAROUSELS} />
       </Grid>
       <Grid item xs={12} lg={3}>
-        <TrendingSection />
+        <TrendingSection trendings={TRENDINGS} />
       </Grid>
 
       <Grid item xs={12}>
-        <TopRatedMovies />
+        <TopRatedMovies movies={FROM_US} />
       </Grid>
 
       <Grid item xs={12}>
-        <TopGrossMovies />
+        <TopGrossMovies movies={TOP_GROSS} />
       </Grid>
 
       <Grid item xs={12}>
-        <TopNews />
+        <TopNews news={NEWS} />
       </Grid>
     </Grid>
   );

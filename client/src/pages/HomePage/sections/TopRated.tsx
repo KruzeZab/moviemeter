@@ -65,7 +65,26 @@ const MOVIES = [
   },
 ];
 
-const TopRated = () => {
+interface TopRatedProps {
+  movies: {
+    id: number;
+    title: string;
+    rating: number;
+    director: string;
+    genre: string[];
+    imageUrls: string[];
+    excerpt: string;
+    grossIncome: number;
+    year: number;
+    writers: string[];
+    stars: string[];
+    description: string;
+  }[];
+}
+
+const TopRated = (props: TopRatedProps) => {
+  const { movies } = props;
+
   return (
     <section>
       {/* Title */}
@@ -80,7 +99,7 @@ const TopRated = () => {
       </Typography>
       <Box mb={4}>
         <MovieCarousel>
-          {MOVIES.map((movie) => (
+          {movies.map((movie) => (
             <MovieCard key={movie.id} {...movie} />
           ))}
         </MovieCarousel>

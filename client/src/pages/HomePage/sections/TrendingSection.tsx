@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { getTwoDigitIndex } from '../../../helpers/fn';
+import { Link } from 'react-router-dom';
 
 const TRENDINGS = [
   {
@@ -34,7 +35,24 @@ const TRENDINGS = [
   },
 ];
 
-const TrendingSection = () => {
+interface TrendingSectionProps {
+  trendings: {
+    id: number;
+    title: string;
+    rating: number;
+    director: string;
+    genre: string[];
+    imageUrls: string[];
+    excerpt: string;
+    grossIncome: number;
+    year: number;
+    writers: string[];
+    stars: string[];
+  }[];
+}
+
+const TrendingSection = (props: TrendingSectionProps) => {
+  const { trendings } = props;
   return (
     <section>
       {/* Title */}
@@ -52,12 +70,12 @@ const TrendingSection = () => {
 
       {/* Trending List */}
       <List>
-        {TRENDINGS.map((trending, index) => (
-          <Fragment key={trending.title}>
+        {trendings.map((trending: any, index: number) => (
+          <Fragment key={trending.id}>
             <ListItem
               alignItems="flex-start"
               key={trending.title}
-              sx={{ pl: 0, pr: 0 }}
+              sx={{ pl: 0, pr: 0 } }
             >
               <ListItemButton sx={{ p: 0.5, pl: 1 }}>
                 <ListItemAvatar>
@@ -68,7 +86,7 @@ const TrendingSection = () => {
                 </ListItemAvatar>
                 <ListItemText
                   primary={trending.title}
-                  secondary={trending.caption}
+                  secondary={trending.excerpt}
                 />
               </ListItemButton>
             </ListItem>

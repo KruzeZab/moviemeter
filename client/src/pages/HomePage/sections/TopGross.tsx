@@ -47,7 +47,26 @@ const MOVIES = [
   },
 ];
 
-const TopGross = () => {
+interface TopGrossProps {
+  movies: {
+    id: number;
+    title: string;
+    rating: number;
+    director: string;
+    genre: string[];
+    imageUrls: string[];
+    excerpt: string;
+    grossIncome: number;
+    year: number;
+    writers: string[];
+    stars: string[];
+    description: string;
+  }[];
+}
+
+const TopGross = (props: TopGrossProps) => {
+  const { movies } = props;
+
   return (
     <section>
       {/* Title */}
@@ -62,7 +81,7 @@ const TopGross = () => {
       </Typography>
       <Box mb={4}>
         <MovieCarousel>
-          {MOVIES.map((movie) => (
+          {movies.map((movie) => (
             <MovieCard key={movie.id} {...movie} />
           ))}
         </MovieCarousel>

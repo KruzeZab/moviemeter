@@ -1,6 +1,21 @@
-from fastapi import FastAPI
+from pathlib import Path
+
 import pickle
-import requests, numpy
+import requests
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def fetch_poster(movie_id):
@@ -11,26 +26,40 @@ def fetch_poster(movie_id):
     full_path = "https://image.tmdb.org/t/p/w500/" + poster_path
     return full_path
 
-similarity = pickle.load(open('./algorithm-copy/similarity.pkl', 'rb'))
-movies = pickle.load(open('./algorithm-copy/movie_list.pkl', 'rb'))
+
+BASE_DIR = Path(__file__).resolve().parent
+print(BASE_DIR)
+similarity = pickle.load(open(BASE_DIR / "algorithm/similarity.pkl", 'rb'))
+pickle_movies = pickle.load(open(BASE_DIR / "algorithm/movie_list.pkl", 'rb'))
+
 
 def recommend_movies(movie):
-    index = movies[movies['title'] == movie].index[0]
-    distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
-    recommended_movie_names = []
-    recommended_movie_posters = []
+    try:
+        index = pickle_movies[pickle_movies['title'] == movie].index[0]
+    except IndexError:
+        return False, ""
+    distances = sorted(
+        list(
+            enumerate(similarity[index])
+        ),
+        reverse=True,
+        key=lambda x: x[1]
+    )
+
+    movies = []
     for i in distances[1:6]:
-        # fetch the movie poster
-        movie_id = movies.iloc[i[0]].movie_id
-        recommended_movie_posters.append(fetch_poster(movie_id))
-        recommended_movie_names.append(movies.iloc[i[0]].title)
+        movie_id = pickle_movies.iloc[i[0]].movie_id
+        movie = {
+            "title": pickle_movies.iloc[i[0]].title,
+            "poster": fetch_poster(movie_id)
+        }
+        movies.append(movie)
+    return True, movies
 
-    return recommended_movie_names,recommended_movie_posters
 
-app = FastAPI()
-
-
-@app.get("/recommend")
-def read_root():
-    print(recommend_movies("Avatar"))
-    return {"Hello": "World"}
+@app.get("/")
+def read_root(movie):
+    status, movies = recommend_movies(movie)
+    if status:
+        return {"movies": movies}
+    raise HTTPException(status_code=404, detail="Item not found")

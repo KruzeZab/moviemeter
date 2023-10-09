@@ -12,6 +12,7 @@ import SignupPage from '../pages/SignupPage';
 import TrendingPage from '../pages/TrendingPage';
 import SearchPage from '../pages/SearchPage';
 import MovieDetailPage from '../pages/MovieDetailPage';
+import RecommendPage from '../pages/RecommendPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +23,8 @@ const router = createBrowserRouter(
         <Route path="" element={<HomePage />} />
         <Route path="/trending" element={<TrendingPage />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/movie/:title" element={<MovieDetailPage />} />
+        <Route path="/movie/:id" element={<MovieDetailPage />} />
+        <Route path="/recommend" element={<RecommendPage />} />
 
         {/* All the protected routes go here */}
         <Route element={<GuardRoute />}></Route>

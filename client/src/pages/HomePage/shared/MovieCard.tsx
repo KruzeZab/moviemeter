@@ -8,24 +8,32 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface MovieCardProps {
   id: number;
-  image: string;
   title: string;
-  rating?: number;
-  description?: string;
-  year?: number;
-  gross?: number;
+  rating: number;
+  director: string;
+  genre: string[];
+  imageUrls: string[];
+  excerpt: string;
+  grossIncome: number;
+  year: number;
+  writers: string[];
+  stars: string[];
+  description: string;
 }
+[];
 
 const MovieCard = (props: MovieCardProps) => {
-  const { image, title, rating, description, year, gross } = props;
+  const { id, imageUrls, title, rating, description, year, grossIncome } =
+    props;
 
   return (
     <Card sx={{ mr: 2, height: '99.8%' }}>
-      <CardActionArea>
-        <CardMedia sx={{ height: 200 }} image={image} title={title} />
+      <CardActionArea LinkComponent={Link} to={`/movie/${id}`}>
+        <CardMedia sx={{ height: 200 }} image={imageUrls[0]} title={title} />
         <CardContent>
           <Typography variant="h5" fontSize="18px" component="div">
             {title} {year && `(${year})`}
@@ -48,7 +56,7 @@ const MovieCard = (props: MovieCardProps) => {
               {description}
             </Typography>
           )}
-          {gross && (
+          {grossIncome && (
             <Typography
               variant="body2"
               color="text.secondary"
@@ -61,7 +69,7 @@ const MovieCard = (props: MovieCardProps) => {
                 color="success.main"
                 component="span"
               >
-                ${gross}
+                ${grossIncome}
               </Typography>
             </Typography>
           )}
@@ -71,12 +79,12 @@ const MovieCard = (props: MovieCardProps) => {
   );
 };
 
-MovieCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  rating: PropTypes.number,
-  description: PropTypes.string,
-  year: PropTypes.number,
-};
+// MovieCard.propTypes = {
+//   imageUrls: PropTypes.array.isRequired,
+//   title: PropTypes.string.isRequired,
+//   rating: PropTypes.number,
+//   description: PropTypes.string,
+//   year: PropTypes.number,
+// };
 
 export default MovieCard;
